@@ -1,67 +1,77 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.StringTokenizer;
+import java.util.*;
+import java.io.*;
 
-public class Main {
-	static StringBuilder sb =new StringBuilder();
-	static Map<Character,char[]>tree = new HashMap<>();
-	
-	public static void main(String[] args) throws IOException {
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		int n = Integer.parseInt(br.readLine());
-		for(int i=0;i<n;i++) {
-			char [] node = new char[3];
-			StringTokenizer st = new StringTokenizer(br.readLine(), " ");
-			for(int j=0;j<3;j++) {
-				node[j]=st.nextToken().charAt(0);
-			}
-			tree.put(node[0],node);
-		}
-		
-		 	preOrder('A');
-	        sb.append("\n");
+class Node{
+    char value;
+    Node left;
+    Node right;
 
-	        inOrder('A');
-	        sb.append("\n");
+    public Node(char value){
+        this.value = value;
+        this.left = null;
+        this.right = null;
+    }
+}
 
-	        postOrder('A');
-	        sb.append("\n");
 
-	        System.out.println(sb.toString());
+class Main {
+    static Node[] tree;
+    
+    public static void preOrder(Node node){
+        if(node == null) return;
+        System.out.print(node.value);
+        preOrder(node.left);
+        preOrder(node.right);
+    }
 
-	        br.close();
-	    }
+    public static void inOrder(Node node){
+        if(node == null) return;
+        inOrder(node.left);
+        System.out.print(node.value);
+        inOrder(node.right);
+    }
 
-	    private static void postOrder(char node) {
-	        if(node == '.'){
-	            return ;
-	        }
+    public static void postOrder(Node node){
+        if(node == null) return;
+        postOrder(node.left);
+        postOrder(node.right);
+        System.out.print(node.value);
+    }
 
-	        postOrder(tree.get(node)[1]);
-	        postOrder(tree.get(node)[2]);
-	        sb.append(node);
-	    }
+    
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-	    private static void inOrder(char node) {
-	        if(node == '.'){
-	            return ;
-	        }
+        int N = Integer.parseInt(br.readLine());
+        tree = new Node[N+1];
+        for(int i=0;i<N;i++){
+            StringTokenizer st = new StringTokenizer(br.readLine());
+            char parentValue = st.nextToken().charAt(0);
+            char leftValue = st.nextToken().charAt(0);
+            char rightValue = st.nextToken().charAt(0);
 
-	        inOrder(tree.get(node)[1]);
-	        sb.append(node);
-	        inOrder(tree.get(node)[2]);
-	    }
+            if(tree[parentValue-'A'] == null){
+                tree[parentValue-'A'] = new Node(parentValue);
+            }
 
-	    private static void preOrder(char node) {
-	        if(node == '.'){
-	            return ;
-	        }
+            if(leftValue!='.'){
+                tree[leftValue-'A'] = new Node(leftValue);
+                tree[parentValue-'A'].left = tree[leftValue-'A'];
+            }
 
-	        sb.append(node);
-	        preOrder(tree.get(node)[1]);
-	        preOrder(tree.get(node)[2]);
-	    }
+            if(rightValue!='.'){
+                tree[rightValue-'A'] = new Node(rightValue);
+                tree[parentValue-'A'].right = tree[rightValue-'A'];
+            } 
+        }
+
+        preOrder(tree[0]);
+        System.out.println();
+
+        inOrder(tree[0]);
+        System.out.println();
+
+        postOrder(tree[0]);
+        System.out.println();
+    }
 }
