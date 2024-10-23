@@ -3,24 +3,19 @@ import java.util.*;
 
 class Solution {
     public int[] solution(int[] array, int[][] commands) {
-        ArrayList<Integer> answer = new ArrayList<>();
+        int[] answer = new int[commands.length];
+        
         for(int i=0;i<commands.length;i++){
-            int[] edge = commands[i];
+            int x = commands[i][0];
+            int y = commands[i][1];
+            int k = commands[i][2];
             
-            int x = edge[0]-1;
-            int y = edge[1]-1;
-            int idx = edge[2]-1;
+            int[] slicedArr = Arrays.copyOfRange(array, x-1, y);
+            Arrays.sort(slicedArr);
             
-            int[] arr = new int[y-x+1];
-            for(int j=x;j<=y;j++){
-                arr[j-x] = array[j];
-            }
-            
-            Arrays.sort(arr);
-            
-            answer.add(arr[idx]);
+            answer[i] = slicedArr[k-1];
         }
         
-        return answer.stream().mapToInt(Integer::intValue).toArray();
+        return answer;
     }
 }
