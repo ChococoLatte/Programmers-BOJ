@@ -17,17 +17,19 @@ class Main {
 
         int x = 0;
         int y = 0;
+        StringBuilder sb = new StringBuilder();
         for(int i=0;i<N;i++){
             for(int j=0;j<N;j++){
-                System.out.print(arr[i][j]+" ");
+                sb.append(arr[i][j]).append(" ");
                 if(arr[i][j] == V){
                     x = i+1;
                     y = j+1;
                 }
             }
-            System.out.println();
+            sb.append("\n");
         }
-        System.out.println(x+" "+y);
+        sb.append(x+" "+y);
+        System.out.println(sb);
     }
 
     static void Rotate() {
