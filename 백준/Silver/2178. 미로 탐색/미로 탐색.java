@@ -2,7 +2,7 @@ import java.util.*;
 import java.io.*;
 
 class Main {
-    static class Point implements Comparable<Point>{
+    static class Point{
         int x;
         int y;
         int cnt;
@@ -11,11 +11,6 @@ class Main {
             this.x = x;
             this.y = y;
             this.cnt = cnt;
-        }
-
-        @Override
-        public int compareTo(Point p){
-            return this.cnt - p.cnt;
         }
     }
     static int N,M,tot;
